@@ -17,7 +17,7 @@ export class MapsPage implements OnInit {
   @Input() fil: string;
   @Output() pinLat: EventEmitter<number> = new EventEmitter();
   @Output() pinLng: EventEmitter<number> = new EventEmitter();
-  
+  @Input() panMap: any;
   map:any;
   markers = [];
   
@@ -31,7 +31,6 @@ export class MapsPage implements OnInit {
   }
   
   ngOnChanges(){
-    
     if(this.fil != undefined){
       this.deletePin();
       for(let i in this.pin){
@@ -44,6 +43,10 @@ export class MapsPage implements OnInit {
     }
     else{
       this.setPinOnMaps();
+
+    }
+    if(this.panMap){
+      this.placeMap(this.panMap.location.latitude,this.panMap.location.longitude);
     }
     
   }
@@ -54,6 +57,7 @@ export class MapsPage implements OnInit {
       zoom: 15,
     });
     this.setPinOnMaps();
+
    
   }
   
@@ -66,12 +70,20 @@ export class MapsPage implements OnInit {
         }
       }
       else{
+      
         this.addMarker(this.pin.location.latitude,this.pin.location.longitude);
+        this.placeMap(this.pin.location.latitude,this.pin.location.longitude);
+        
       }
     }
     this.mapInfo(this.map,this.pin);
   }
   
+  placeMap(lat,lng){
+    this.map.setCenter(new google.maps.LatLng(lat,lng));
+    this.map.panTo(new google.maps.LatLng(lat,lng));
+    this.map.setZoom(10);
+  }
   
   createLatLngOnMap(){
     this.map.addListener('click',(e) =>  {
@@ -121,7 +133,6 @@ export class MapsPage implements OnInit {
         map: this.map
       });
       this.markers.push(marker);
-      
     }
     
 
@@ -164,7 +175,6 @@ export class MapsPage implements OnInit {
         }
         
         deletePin(){
-          
           this.markers.forEach((marker)=>{
             marker.setMap(null);
           })

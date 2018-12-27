@@ -22,8 +22,9 @@ export class HomePage  {
   lng:number;
   sensorColloction : AngularFirestoreCollection<sensor> ;
   dataSensor : Observable<sensor[]>
-  // ngOnInit() {
-  // }
+  selectSensor :any;
+
+
 
   ngChanges(){
 
@@ -146,24 +147,24 @@ export class HomePage  {
     }
     
     async editSensorModal(index) {
-      console.log("index",index);
-      console.log("index new",this.sensorDB[index].id);
+      // console.log("index",index);
+      // console.log("index new",this.sensorDB[index].id);
       
       const modal = await this.modalController.create({
         component: EditPage,
         componentProps: { value: this.sensorDB[index] }
       });
-      console.log("this sensor",this.sensorDB[index]);
+      // console.log("this sensor",this.sensorDB[index]);
       
       modal.onDidDismiss().then((data) =>{
         if(data.data != null){
-          console.log("data",data);
+          // console.log("data",data);
           this.sensorDB[index].location = new firebase.firestore.GeoPoint(this.sensorDB[index].location.latitude,this.sensorDB[index].location.longitude);
-          let date  = new Date(this.sensorDB[index].timestamp.seconds);
-          console.log("date",date);
+          let date  = new Date(this.sensorDB[index].timestamp);
+          // console.log("date",date);
           
           let timestamp = firebase.firestore.Timestamp.fromDate(date);
-          console.log("timestamp",timestamp);
+          // console.log("timestamp",timestamp);
           
           this.sensorColloction.doc(this.sensorDB[index].id).update(
             {
@@ -185,7 +186,7 @@ export class HomePage  {
           });
           modal.onDidDismiss().then((data) =>{
             if(data.data != null){
-              console.log("data",data.data);
+              // console.log("data",data.data);
               this.unitSensor(data.data);
               this.sensorColloction.add(data.data);
             }
@@ -199,13 +200,13 @@ export class HomePage  {
 
         pinLat(value){
           this.lat = value;
-          console.log("lat",value,this.lat);
-          
         }
         pinLng(value){
           this.lng = value;
-          console.log("lng",value,this.lng);
-          
+        }
+
+        index(value){
+          this.selectSensor = value;
         }
       }
       

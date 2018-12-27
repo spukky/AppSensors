@@ -25,8 +25,8 @@
   <ion-grid>
     <ion-row *ngIf="sensorDB != undefind">
       <ion-col>
-        <ion-list *ngFor="let s of sensorDB; index as i">
-          <ion-item  *ngIf = "s.type === filter || (filter == null && s.type != null) ">
+        <ion-list *ngFor="let s of sensorDB; index as i" (click)="index(s)">
+          <ion-item  *ngIf = "s.type === filter || (filter == null && s.type != null) " >
             <ion-avatar slot="start">
               <img src= {{s.pic}} >
             </ion-avatar>
@@ -40,7 +40,7 @@
         </ion-list>
       </ion-col>
       <ion-col class="sensors-map-col">
-        <app-maps [pin]="sensorDB" [fil]="filter" ></app-maps>
+        <app-maps [pin]="sensorDB" [fil]="filter" [panMap] = "selectSensor" ></app-maps>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -24,17 +24,22 @@ export class EditPage implements OnInit {
   ngOnInit() {
    this.lng = this.value.location.longitude
    this.lat = this.value.location.latitude;
-   this.value.timestamp = this.value.timestamp;
+  //  this.value.timestamp = new Date(this.value.timestamp.seconds*1000)
+  // this.value.timestamp = this.value.timestamp
    console.log("timestamp",this.value.timestamp);
+   this.value.timestamp = new Date(this.value.timestamp.seconds*1000);
    
   }
 
 save(){
 
+
+this.value.timestamp = this.value.timestamp;
 this.value.location = {
   latitude:this.lat,
   longitude:this.lng
 }
+
 console.log("timestamp",this.value.timestamp);
 
   console.log("lng lat",this.lat,this.lng);
