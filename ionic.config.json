@@ -1,0 +1,7 @@
+{
+  "name": "mySensors",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

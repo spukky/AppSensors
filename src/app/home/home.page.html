@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-fab vertical="top" horizontal="end" slot="fixed">
+  <ion-fab-button  (click) = "addSensorModal()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-item>
+  <ion-label>Filter</ion-label>
+  <ion-select value="" okText="Okay" cancelText="Dismiss" [(ngModel)] ="filter">
+    <ion-select-option value="temp">Temp</ion-select-option>
+    <ion-select-option value="level">Level</ion-select-option>
+    <ion-select-option value="humidity">Humidity</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row *ngIf="sensorDB != undefind">
+      <ion-col>
+        <ion-list *ngFor="let s of sensorDB; index as i">
+          <ion-item  *ngIf = "s.type === filter || (filter == null && s.type != null) ">
+            <ion-avatar slot="start">
+              <img src= {{s.pic}} >
+            </ion-avatar>
+            <ion-label [class.selected]="s === detail" (click)="presentActionSheet(i, s)">
+              {{i}}
+              <h2>{{s.name}}</h2>
+              <p>{{s.timestamp.seconds*1000| date:'MM-dd-yyyy' }}</p>
+            </ion-label>
+            <ion-badge slot="end">{{s.value}} {{s.units}}</ion-badge>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col class="sensors-map-col">
+        <app-maps [pin]="sensorDB" [fil]="filter" ></app-maps>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content> 
+
+
+

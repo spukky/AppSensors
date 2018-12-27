@@ -1,0 +1,24 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
+import { AddPageComponent } from './add-page.component';
+import { MapsPageModule } from '../maps/maps.module';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule.forChild([
+      {
+        path: '',
+        component: AddPageComponent
+      }
+    ]),
+    MapsPageModule,
+  ],
+  declarations: [AddPageComponent]
+})
+export class AddPageModule {}

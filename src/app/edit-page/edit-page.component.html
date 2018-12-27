@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      
+    </ion-buttons>
+    <ion-title>
+      EditPage
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+          <ion-item>
+              <ion-label>Type Sensor</ion-label>
+              <ion-select value="type" okText="Okay" cancelText="Dismiss" [(ngModel)] ="value.type">
+                <ion-select-option value="temp">Temp</ion-select-option>
+                <ion-select-option value="level">Level</ion-select-option>
+                <ion-select-option value="humidity">Humidity</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Name Sensor:</ion-label>
+              <ion-input required type="text" [(ngModel)] ="value.name"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Value Sensor:</ion-label>
+              <ion-input required type="number"  [(ngModel)] ="value.value"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating" >Latitude Sensor:</ion-label>
+              <ion-input required type="number" [(ngModel)] ="lat"  ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating" >Longitude Sensor:</ion-label>
+              <ion-input required type="number" [(ngModel)] ="lng"  ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input required type="date" [(ngModel)] ="value.timestamp" ></ion-input>
+            </ion-item>
+            
+            <ion-list>
+              <ion-radio-group [(ngModel)] = "value.pic">
+                <ion-list-header>
+                  <ion-label>Pic</ion-label>
+                </ion-list-header>
+                
+                <ion-item>
+                  <img src= "http://www.eastmain.ca/images/measure-512.png" width="100px" height="100px" >
+                  <ion-radio slot="start" value="http://www.eastmain.ca/images/measure-512.png" checked></ion-radio>
+                </ion-item>
+                
+                <ion-item>
+                  <img src= "https://cdn4.iconfinder.com/data/icons/christmas-spirit/32/thermometer-512.png" width="100px" height="100px" >
+                  <ion-radio slot="start" value="https://cdn4.iconfinder.com/data/icons/christmas-spirit/32/thermometer-512.png"></ion-radio>
+                </ion-item>
+                
+                <ion-item>
+                  <img src= "https://www.greenbudbd.com/uploads/2/6/1/5/26158229/645127217.png?311" width="100px" height="100px" >
+                  <ion-radio slot="start" value="https://www.greenbudbd.com/uploads/2/6/1/5/26158229/645127217.png?311"></ion-radio>
+                </ion-item>
+                
+                <ion-item>
+                  <img src= "https://pbs.twimg.com/profile_images/747067270027829248/bpckxgai.jpg" width="100px" height="100px" >
+                  <ion-radio slot="start" value="https://pbs.twimg.com/profile_images/747067270027829248/bpckxgai.jpg"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+            </ion-list>
+            <br>
+            <ion-button size="small" (click) = save() >SAVE</ion-button>
+            <ion-button size="small" (click) = cancel() >Cancel</ion-button>
+      </ion-col>
+      <ion-col class="sensors-map-col">
+          <app-maps (pinLng)="pinLng($event)" (pinLat)="pinLat($event)" [pin] = "value"></app-maps>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+ 
+  
+</ion-content>
+
+
+
