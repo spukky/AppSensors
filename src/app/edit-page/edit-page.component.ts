@@ -1,9 +1,7 @@
 import { Component, OnInit , Input } from '@angular/core';
 import { ModalController, NavParams} from '@ionic/angular';
-// import { HomePage } from '../home/home.page';
 import { sensor } from '../sensor';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import * as firebase from 'firebase/app'
 
 @Component({
   selector: 'app-edit-page',
@@ -17,50 +15,35 @@ export class EditPage implements OnInit {
   sensorColloction : AngularFirestoreCollection<sensor> ;
   constructor(public modalController: ModalController,private navParams: NavParams,private db: AngularFirestore) {
     
-
-
-   }
-
-  ngOnInit() {
-   this.lng = this.value.location.longitude
-   this.lat = this.value.location.latitude;
-  //  this.value.timestamp = new Date(this.value.timestamp.seconds*1000)
-  // this.value.timestamp = this.value.timestamp
-   console.log("timestamp",this.value.timestamp);
-   this.value.timestamp = new Date(this.value.timestamp.seconds*1000);
-   
-  }
-
-save(){
-
-
-this.value.timestamp = this.value.timestamp;
-this.value.location = {
-  latitude:this.lat,
-  longitude:this.lng
-}
-
-console.log("timestamp",this.value.timestamp);
-
-  console.log("lng lat",this.lat,this.lng);
-  this.modalController.dismiss(this.value);
-  console.log("data",this.value);
-}
-
-
-cancel(){
-  this.modalController.dismiss();
-}
-
-pinLat(value){
-    this.lat = value;
-    console.log("lat",value,this.lat);
     
+    
+  }
+  
+  ngOnInit() {
+    this.lng = this.value.location.longitude
+    this.lat = this.value.location.latitude;
+    this.value.timestamp = new Date(this.value.timestamp.seconds*1000);
+  }
+  
+  save(){
+    this.value.timestamp = this.value.timestamp;
+    this.value.location = {
+      latitude:this.lat,
+      longitude:this.lng
+    }
+    this.modalController.dismiss(this.value);
+  }
+  
+  
+  cancel(){
+    this.modalController.dismiss();
+  }
+  
+  pinLat(value){
+    this.lat = value;
   }
   pinLng(value){
     this.lng = value;
-    console.log("lng",value,this.lng);
-    
   }
-
+  
 }
