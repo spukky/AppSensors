@@ -25,7 +25,7 @@
   <ion-grid>
     <ion-row *ngIf="sensorDB != undefind">
       <ion-col>
-        <ion-list *ngFor="let s of sensorDB; index as i" (click)="index(s)">
+        <ion-list *ngFor="let s of sensorDB; index as i" >
           <ion-item  *ngIf = "s.type === filter || (filter == null && s.type != null) " >
             <ion-avatar slot="start">
               <img src= {{s.pic}} >
@@ -35,7 +35,7 @@
               <h2>{{s.name}}</h2>
               <p>{{s.timestamp.seconds*1000| date:'MM-dd-yyyy' }}</p>
             </ion-label>
-            <ion-badge slot="end">{{s.value}} {{s.units}}</ion-badge>
+            <ion-badge slot="end" (click)="select(s)">{{s.value}} {{s.units}}</ion-badge>
           </ion-item>
         </ion-list>
       </ion-col>

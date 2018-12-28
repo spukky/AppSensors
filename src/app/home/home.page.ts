@@ -23,11 +23,11 @@ export class HomePage  {
   sensorColloction : AngularFirestoreCollection<sensor> ;
   dataSensor : Observable<sensor[]>
   selectSensor :any;
-
-
-
+  
+  
+  
   ngChanges(){
-
+    
   }
   constructor(public modalController: ModalController ,public alertController: AlertController ,public actionSheetController: ActionSheetController,private db: AngularFirestore ) {
     this.sensorColloction = db.collection<sensor>("sensor");
@@ -43,8 +43,8 @@ export class HomePage  {
         this.sensorDB = res;
       });
     }
-
-
+    
+    
     
     unitSensor(s:sensor){
       if(s.type === "level"){
@@ -72,14 +72,11 @@ export class HomePage  {
           icon: 'trash',
           handler: () => {
             actionSheet.dismiss({id:this.sensorDB[index],action: "del"});
-            // console.log("data",this.sensorDB[index]);
           }
         }, {
           text: 'Edit',
           icon: 'cog',
           handler: () => {
-            // console.log('Share clicked');
-            // console.log("index",index);
             actionSheet.dismiss({id:index,action: "edit"});
           }
         }, {
@@ -87,28 +84,22 @@ export class HomePage  {
           icon: 'close',
           role: 'cancel',
           handler: () => {
-            // console.log('Cancel clicked');
             actionSheet.dismiss({id:index,action: "cancel"});
           }
         }]
       });
       actionSheet.present();
       actionSheet.onDidDismiss().then((data)=>{
-        // console.log("data.data",data.data);
         if(data.data != null){
           if( data.data.action == "del"){
             this.presentAlertConfirm(data.data.id.id);
-            // console.log("action del",data.data.id.id);
-            
           }
           else if(data.data.action == "edit"){
-            this.editSensorModal(data.data.id)
-            // console.log( "edit");
+            this.editSensorModal(data.data.id);
           }
           else if(data.data.action == "cancel"){
           }
         }
-        
       });
     }
     
@@ -123,7 +114,6 @@ export class HomePage  {
             role: 'cancel',
             cssClass: 'secondary',
             handler: (blah) => {
-              console.log('Confirm Cancel: blah',blah);
             }
           }, {
             text: 'Okay',
@@ -136,36 +126,22 @@ export class HomePage  {
       alert.present();
       
       alert.onDidDismiss().then((data)=>{ 
-        // console.log("data",data);
         if(data.data.action == "ok"){
-          // console.log("id",data.data.id);
           this.deleteSensor(data.data.id);
-          
-          
         }
       });
     }
     
-    async editSensorModal(index) {
-      // console.log("index",index);
-      // console.log("index new",this.sensorDB[index].id);
-      
+    async editSensorModal(index) {  
       const modal = await this.modalController.create({
         component: EditPage,
         componentProps: { value: this.sensorDB[index] }
       });
-      // console.log("this sensor",this.sensorDB[index]);
-      
       modal.onDidDismiss().then((data) =>{
         if(data.data != null){
-          // console.log("data",data);
           this.sensorDB[index].location = new firebase.firestore.GeoPoint(this.sensorDB[index].location.latitude,this.sensorDB[index].location.longitude);
-          let date  = new Date(this.sensorDB[index].timestamp);
-          // console.log("date",date);
-          
+          let date  = new Date(this.sensorDB[index].timestamp);  
           let timestamp = firebase.firestore.Timestamp.fromDate(date);
-          // console.log("timestamp",timestamp);
-          
           this.sensorColloction.doc(this.sensorDB[index].id).update(
             {
               location:this.sensorDB[index].location,
@@ -186,26 +162,20 @@ export class HomePage  {
           });
           modal.onDidDismiss().then((data) =>{
             if(data.data != null){
-              // console.log("data",data.data);
               this.unitSensor(data.data);
               this.sensorColloction.add(data.data);
             }
           });
           return await modal.present();
         }
-
-        // goHome(){
-        //   this.filter = ""
-        // }
-
         pinLat(value){
           this.lat = value;
         }
         pinLng(value){
           this.lng = value;
         }
-
-        index(value){
+        
+        select(value){
           this.selectSensor = value;
         }
       }
