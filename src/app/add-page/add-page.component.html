@@ -14,8 +14,8 @@
     <ion-row>
       <ion-col>
         <ion-item>
-          <ion-label>Type Sensor</ion-label>
-          <ion-select value="type" okText="Okay" cancelText="Dismiss" [(ngModel)] ="s.type" >
+          <ion-label >Type Sensor</ion-label>
+          <ion-select value="type" okText="Okay" cancelText="Dismiss" [(ngModel)] ="s.type"  required  >
             <ion-select-option value="temp">Temp</ion-select-option>
             <ion-select-option value="level">Level</ion-select-option>
             <ion-select-option value="humidity">Humidity</ion-select-option>
@@ -33,7 +33,7 @@
           <ion-input required type="date" [(ngModel)] ="s.timestamp"  ></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating" >Latitude Sensor:</ion-label>
+          <ion-label position="floating" style="color:color " >Latitude Sensor:</ion-label>
           <ion-input required type="number" [(ngModel)] ="lat"  required></ion-input>
         </ion-item>
         <ion-item>
