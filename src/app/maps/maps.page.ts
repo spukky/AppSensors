@@ -32,23 +32,25 @@ export class MapsPage implements OnInit {
   
   ngOnChanges(){
     if(this.fil != undefined){
-      this.deletePin();
-      for(let i in this.pin){
-        if(this.pin[i].type === this.fil || (this.fil == undefined && this.pin != null ))
-        {
-          this.addMarker(this.pin[i].location.latitude,this.pin[i].location.longitude)
-        }
-      }
-      this.mapInfo(this.map,this.pin);
+      this.filterSensor();
+    }
+    else if(this.panMap){
+      this.placeMap(this.panMap.location.latitude,this.panMap.location.longitude);
     }
     else{
       this.setPinOnMaps();
-
     }
-    if(this.panMap){
-      this.placeMap(this.panMap.location.latitude,this.panMap.location.longitude);
+  }
+  filterSensor(){
+    this.deletePin();
+    for(let i in this.pin){
+      if(this.pin[i].type === this.fil || (this.fil == undefined && this.pin != null ))
+      {
+        this.addMarker(this.pin[i].location.latitude,this.pin[i].location.longitude)
+      }
     }
-    
+    this.scopeDisplayMap();
+    this.mapInfo(this.map,this.pin);
   }
   
   createMap(){
@@ -57,8 +59,15 @@ export class MapsPage implements OnInit {
       zoom: 15,
     });
     this.setPinOnMaps();
-
-   
+    this.scopeDisplayMap();
+  }
+  
+  scopeDisplayMap(){
+    let bound = new google.maps.LatLngBounds();
+    this.markers.forEach((marker)=>{
+      bound.extend(marker.getPosition());
+    });
+    this.map.fitBounds(bound);
   }
   
   setPinOnMaps(){
@@ -70,19 +79,15 @@ export class MapsPage implements OnInit {
         }
       }
       else{
-      
         this.addMarker(this.pin.location.latitude,this.pin.location.longitude);
         this.placeMap(this.pin.location.latitude,this.pin.location.longitude);
-        
       }
     }
     this.mapInfo(this.map,this.pin);
   }
   
   placeMap(lat,lng){
-    this.map.setCenter(new google.maps.LatLng(lat,lng));
     this.map.panTo(new google.maps.LatLng(lat,lng));
-    this.map.setZoom(10);
   }
   
   createLatLngOnMap(){
@@ -95,25 +100,18 @@ export class MapsPage implements OnInit {
   }
   
   searchPlace() {
-    // console.log("searchPlace");
-    
     let input =<HTMLInputElement> this.placeElement.nativeElement;
-    // console.log("input",input);
-    
     let searchBox = new google.maps.places.SearchBox(input);
     this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    // console.log("search",searchBox);
     searchBox.addListener('places_changed', () => {
       let places = searchBox.getPlaces();
       if (places.length == 0){
-        console.log("return");
         return;
       }
       let bounds = new google.maps.LatLngBounds();
       if(!places[0].geometry){
         return;
       }
-      // console.log("place[0]",places[0]);
       if(places[0].geometry.viewport){
         bounds.union(places[0].geometry.viewport)
       }else{
@@ -135,8 +133,6 @@ export class MapsPage implements OnInit {
       this.markers.push(marker);
     }
     
-
-
     mapInfo(map,pin){
       let j;
       if(this.pin){
@@ -172,7 +168,7 @@ export class MapsPage implements OnInit {
               })
             }
           }
-        }
+        } 
         
         deletePin(){
           this.markers.forEach((marker)=>{
@@ -181,6 +177,11 @@ export class MapsPage implements OnInit {
           this.markers = [];
         }
         
+        allPins(){
+          this.deletePin();
+          this.setPinOnMaps();
+          this.scopeDisplayMap();
+        }
         
         
         
